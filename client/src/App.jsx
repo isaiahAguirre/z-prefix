@@ -203,8 +203,8 @@ function App() {
         <h1>Items</h1>
         {(userId === 0)? <p><Button variant="outlined" startIcon={<PersonAddIcon/>} onClick={() =>{setNewUserBool(true), setFirstName('')}}>Create Account</Button> <Button variant="outlined" startIcon={<PersonIcon/>} onClick={() =>setLoginBool(true)}>Log In</Button></p> 
                        : <p><Button variant="outlined" startIcon={<PersonIcon/>} onClick={() =>{setUserId(0), setItemDisplayMode('all'), setIsInventoryManager(false), setDisplayedUser('')}}>Log Out</Button> Currently Signed in as {displayedUser}</p>}
-        <p><Button variant="outlined" color={itemDisplayMode === 'all'? (selectedId === 0? 'success':'primary' ): ('primary')} startIcon={<PersonAddIcon/>} onClick={() =>{setItemDisplayMode('all'), setSelectedId(0)}}>All Items</Button> 
-        {isInventoryManager && <Button variant="outlined" color={itemDisplayMode === 'all'? 'primary' : 'success'} startIcon={<PersonAddIcon/>} onClick={() =>{setItemDisplayMode('my'), setSelectedId(0)}}>My Items</Button>}</p>
+        <p><Button variant="outlined" color={itemDisplayMode === 'all'? (selectedId === 0? 'success':'primary' ): ('primary')} onClick={() =>{setItemDisplayMode('all'), setSelectedId(0)}}>All Items</Button> 
+        {isInventoryManager && <Button variant="outlined" color={itemDisplayMode === 'all'? 'primary' : 'success'} onClick={() =>{setItemDisplayMode('my'), setSelectedId(0)}}>My Items</Button>}</p>
         {isInventoryManager && <p><Button variant="outlined" onClick={() =>{setAddBool(true), setItemName(''), setItemDescription(''), setItemQuantity(''), setEditBool(false)}} startIcon={<AddIcon/>}>Add New Item</Button></p>}
         {items}
       </div>
