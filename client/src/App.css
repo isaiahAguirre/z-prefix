@@ -28,11 +28,17 @@
   padding: 20px;
   background-color: #fcfcfc;
   border: 2px solid black;
-  text-align: left;
+  /* text-align: left; */
   margin: 5px;
   color: rgb(0, 0, 0);
 }
 
+#exit{
+  height: 7px;
+  width: 7px;
+  top: -30px;
+  right: -50%;
+}
 .background-div{
   background-color: black;
   position: fixed;

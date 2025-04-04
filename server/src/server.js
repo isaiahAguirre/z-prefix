@@ -3,6 +3,8 @@ const app = express();
 const port = 8081;
 const cors = require("cors")
 const knex = require('knex')(require('../knexfile.js')["development"])
+const bcrypt = require('bcrypt')
+const saltRounds = 10;
 
 app.use(cors());
 app.use(express.json());
@@ -21,10 +23,41 @@ app.get('/items', (req,res) => {
 
 
 //get users for log in authentication
-app.get('/users', (req,res) => {
+// app.get('/users', (req,res) => {
+//     knex('users')
+//         .select('*')
+//         .then(account => {
+
+//             res.json(account)
+//         })
+// })
+
+app.post('/login', (req,res) =>{
+    const {Username, Password} = req.body;
+
     knex('users')
-        .select('*')
-        .then(account => res.json(account))
+        .where({'Username':Username})
+        .select('Password')
+        .then((hash) =>{
+            bcrypt.compare(Password, hash[0].Password, function(err, result) {
+                if (result) {
+                  console.log("Password Correct.")
+                  knex('users')
+                    .where({'Username':Username})
+                    .select('id')
+                    .then(id => res.json(id))
+                }
+                else {
+                  console.log("Invalid password.");
+                }
+              })
+        })
+        .catch((err) =>{
+            console.error('Authentication error: ', err);
+            res.status(500).json({
+                message: err
+            })
+        })
 })
 
 //get specific item
@@ -58,9 +91,9 @@ app.post('/items', (req,res) =>{
 //add a user
 app.post('/users', (req,res) =>{
     const {First_Name, Last_Name, Username, Password} = req.body;
-
-    knex('users')
-        .insert({First_Name, Last_Name, Username, Password})
+    bcrypt.hash(Password, saltRounds, function(err, hash){
+        knex('users')
+        .insert({First_Name, Last_Name, Username, Password: hash})
         .then(() =>{
             res.status(201).json({
                 message: 'User successfully added.'
@@ -72,6 +105,8 @@ app.post('/users', (req,res) =>{
                 message: err
             })
         })
+    })
+
 })
 
 //update an item
