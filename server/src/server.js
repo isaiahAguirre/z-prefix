@@ -21,17 +21,6 @@ app.get('/items', (req,res) => {
         .then(items => {initialCount = items.length + 1, res.json(items)})
 })
 
-
-//get users for log in authentication
-// app.get('/users', (req,res) => {
-//     knex('users')
-//         .select('*')
-//         .then(account => {
-
-//             res.json(account)
-//         })
-// })
-
 app.post('/login', (req,res) =>{
     const {Username, Password} = req.body;
 
